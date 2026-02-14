@@ -7,7 +7,6 @@ import type { Status } from '../types/status';
 type DefaultButtonProps = {
   status: Status;
   content: string;
-  className: string;
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   onClick?: () => void;
 };
@@ -42,7 +41,6 @@ const buttonVariants = cva(
 );
 
 function Button({
-  className,
   variant = 'default',
   size = 'md',
   status = 'primary',
@@ -71,7 +69,7 @@ function Button({
   return (
     <button
       className={cn(
-        buttonVariants({ variant, size, className }),
+        buttonVariants({ variant, size }),
         (variant === 'default' || variant === 'outline') &&
           colorMap[variant][status],
       )}

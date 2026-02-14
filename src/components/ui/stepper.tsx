@@ -30,7 +30,7 @@ const Stepper = ({ steps, nowStep = 0 }: DefaultStepperProps) => {
             <div className="flex items-center justify-center gap-3 px-2.25">
               <div
                 className={cn(
-                  'flex h-11 w-11 items-center justify-center rounded-4xl md:h-8 md:w-8',
+                  'flex h-6 w-6 items-center justify-center rounded-4xl md:h-11 md:w-11',
                   bgColor(),
                 )}
               >
@@ -38,7 +38,7 @@ const Stepper = ({ steps, nowStep = 0 }: DefaultStepperProps) => {
               </div>
               <span
                 className={cn(
-                  'font-sans text-[18px] md:text-[12px]',
+                  'font-sans text-[10px] md:text-[18px]',
                   textColor(),
                 )}
               >
