@@ -27,7 +27,10 @@ const Stepper = ({ steps, nowStep = 0 }: DefaultStepperProps) => {
           };
 
           return (
-            <div className="flex items-center justify-center gap-3 px-2.25">
+            <div
+              className="flex items-center justify-center gap-3 px-2.25"
+              key={index}
+            >
               <div
                 className={cn(
                   'flex h-6 w-6 items-center justify-center rounded-4xl md:h-11 md:w-11',
