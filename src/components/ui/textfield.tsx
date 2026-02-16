@@ -1,15 +1,10 @@
 import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type ChangeEvent } from 'react';
-import AlertSvg from '@/assets/alert.svg?react';
 
 type DefaultTextFieldProps = {
-  type: 'text' | 'password' | 'number';
-  helpMessage?: string;
-  defaultValue?: string | number;
-  placeholder?: string;
   width?: number;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  helpMessage?: string;
 };
 
 const textFieldVariants = cva(
@@ -31,14 +26,16 @@ const textFieldVariants = cva(
 );
 
 const TextField = ({
-  type,
-  status,
   helpMessage = '',
-  defaultValue = '',
+  icon,
+  status = 'primary',
   placeholder = '',
   width = 200,
   onChange,
-}: DefaultTextFieldProps & VariantProps<typeof textFieldVariants>) => {
+  ...props
+}: React.ComponentProps<'input'> &
+  DefaultTextFieldProps &
+  VariantProps<typeof textFieldVariants>) => {
   const colorMap = {
     primary: 'text-primary',
     secondary: 'text-secondary',
@@ -48,21 +45,22 @@ const TextField = ({
   };
 
   const variantValue = status || 'primary';
+  const Icon = icon;
 
   return (
     <div className="mb-2 flex flex-col gap-1.25">
       <div style={{ width }} className={cn(textFieldVariants({ status }))}>
         <input
           className="text-strong min-w-0 flex-1 border-none bg-transparent font-sans text-sm outline-none"
-          type={type}
-          defaultValue={defaultValue}
+          defaultValue={props.defaultValue}
           placeholder={placeholder}
           onChange={onChange}
           disabled={status === 'disabled'}
+          {...props}
         />
-        {helpMessage && (
+        {Icon && (
           <span className={cn('shrink-0', colorMap[variantValue])}>
-            <AlertSvg width={13} height={13} className="block" />
+            <Icon width={13} height={13} className="block" />
           </span>
         )}
       </div>
