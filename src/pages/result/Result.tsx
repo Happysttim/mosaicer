@@ -68,7 +68,9 @@ const Processing = ({ percentage, message }: ProcessingProps) => {
       <div className="flex flex-1 flex-col items-center justify-center space-y-11">
         <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1.25">
           <p className="font-mosaic text-[56px]">Processing...</p>
-          <p className="font-sans text-[32px]">{message}</p>
+          <p className="font-sans text-[32px]">
+            {message || '모바일 환경에서는 작업 시간이 오래 걸립니다'}
+          </p>
           <Progress value={percentage} max={100} />
         </div>
         <Button
