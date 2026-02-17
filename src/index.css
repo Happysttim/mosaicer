@@ -63,10 +63,6 @@
 	--sidebar-ring: oklch(0.708 0 0);
 }
 
-#root {
-	overflow: hidden;
-}
-
 @theme inline {
 	--color-primary: var(--primary);
 	--color-secondary: var(--secondary);
