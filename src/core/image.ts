@@ -81,12 +81,8 @@ class Image {
         decoded,
         this._image,
         new this._cv.Size(
-          ((decoded.cols + this._tileLength - 1) / this._tileLength) *
-            this._tileLength *
-            this._upsize,
-          ((decoded.rows + this._tileLength - 1) / this._tileLength) *
-            this._tileLength *
-            this._upsize,
+          Math.ceil((decoded.cols * this._upsize) / tileLength) * tileLength,
+          Math.ceil((decoded.rows * this._upsize) / tileLength) * tileLength,
         ),
         0.0,
         0.0,
