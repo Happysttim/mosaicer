@@ -36,7 +36,7 @@ const Result = () => {
 
   return (
     <div className="from-secondary to-clean h-screen w-screen overflow-hidden bg-linear-to-b">
-      <div className="border-default h-17 w-screen md:h-55">
+      <div className="border-default h-17 w-screen md:h-35">
         <div className="mx-4 mt-4 md:mx-8 md:mt-8">
           <span
             className="font-mosaic text-[24px] hover:cursor-pointer md:text-[32px]"
@@ -68,9 +68,10 @@ const Processing = ({ percentage, message }: ProcessingProps) => {
       <div className="flex flex-1 flex-col items-center justify-center space-y-11">
         <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1.25">
           <p className="font-mosaic text-[56px]">Processing...</p>
-          <p className="font-sans text-[32px]">
-            {message || '사진이 많을 수록 작업 시간이 오래 걸립니다.'}
+          <p className="font sans text-[18px]">
+            사진이 많을 수록 작업 시간이 오래 걸립니다.
           </p>
+          <p className="font-sans text-[32px]">{message}</p>
           <Progress value={percentage} max={100} />
         </div>
         <Button
@@ -126,7 +127,7 @@ const ShowImage = ({ result, terminate }: ShowImageProps) => {
   return (
     <div className="flex items-center justify-center">
       <div className="flex h-200 w-full flex-col items-center gap-4">
-        <div className="bg-300 border-strong flex h-75 w-75 items-center justify-center md:h-150 md:w-275">
+        <div className="bg-300 border-strong flex h-75 w-75 items-center justify-center md:h-130 md:w-255">
           {src ? (
             <img src={src} className="h-full w-full object-cover" />
           ) : (
