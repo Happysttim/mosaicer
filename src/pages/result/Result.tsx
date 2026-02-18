@@ -40,7 +40,7 @@ const Result = () => {
       <div className="border-default h-17 w-screen md:h-35">
         <div className="mx-4 mt-4 md:mx-8 md:mt-8">
           <span
-            className="font-mosaic text-[24px] hover:cursor-pointer md:text-[32px]"
+            className="font-mosaic text-primary text-[24px] tracking-wide drop-shadow-sm hover:cursor-pointer md:text-[32px]"
             onClick={() => navigate(CONST_URL.HOME)}
           >
             Mosaicer
