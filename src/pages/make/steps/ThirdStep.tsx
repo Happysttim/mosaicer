@@ -23,8 +23,8 @@ const ThirdStep = () => {
   const setMaxCount = useImageStore((state) => state.setMaxCount);
 
   return (
-    <div className="h-full w-full overflow-y-scroll font-sans">
-      <div className="flex flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center overflow-y-scroll font-sans">
+      <div className="flex flex-col">
         <div className="flex flex-1 flex-col gap-10">
           <div className="relative">
             <p className="text-[24px]">투명도</p>
@@ -36,6 +36,7 @@ const ThirdStep = () => {
               max="1.0"
               status="primary"
               width={100}
+              helpMessage="타일의 투명도를 조절합니다."
               onChange={(e) => setOpacity(parseFloat(e.target.value))}
             />
           </div>
@@ -73,6 +74,7 @@ const ThirdStep = () => {
               min="1.0"
               step="0.1"
               status="primary"
+              helpMessage="타일의 크기를 결정합니다."
               width={100}
               onChange={(e) => setScale(parseFloat(e.target.value))}
             />
@@ -94,6 +96,7 @@ const ThirdStep = () => {
               min="100"
               step="1"
               status="primary"
+              helpMessage="타일을 최대로 배치할 수 있는 갯수를 정합니다."
               width={100}
               onChange={(e) => setMaxCount(parseInt(e.target.value))}
             />

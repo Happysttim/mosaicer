@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Download from '@/assets/download.svg?react';
 
 import WorkMosaicer from '@/workers/mosaicer?worker';
+import useMediaWidth from '@/hooks/useWidth';
 
 const Result = () => {
   const worker = useMemo(() => new WorkMosaicer(), []);
@@ -35,7 +36,7 @@ const Result = () => {
   }, []);
 
   return (
-    <div className="from-secondary to-clean h-screen w-screen overflow-hidden bg-linear-to-b">
+    <div className="h-screen w-screen overflow-hidden">
       <div className="border-default h-17 w-screen md:h-35">
         <div className="mx-4 mt-4 md:mx-8 md:mt-8">
           <span
@@ -111,6 +112,8 @@ const ShowImage = ({ result, terminate }: ShowImageProps) => {
   const main = useImageStore((state) => state.main);
   const [src, setSrc] = useState('');
 
+  const match = useMediaWidth({ minWidth: 768 });
+
   useEffect(() => {
     terminate();
 
@@ -127,7 +130,7 @@ const ShowImage = ({ result, terminate }: ShowImageProps) => {
   return (
     <div className="flex items-center justify-center">
       <div className="flex h-200 w-full flex-col items-center gap-4">
-        <div className="bg-300 border-strong flex h-75 w-75 items-center justify-center md:h-130 md:w-255">
+        <div className="bg-weak border-strong flex h-75 w-75 items-center justify-center md:h-130 md:w-255">
           {src ? (
             <img src={src} className="h-full w-full object-cover" />
           ) : (
@@ -141,13 +144,13 @@ const ShowImage = ({ result, terminate }: ShowImageProps) => {
             content="이미지 다운로드"
             status="success"
             icon={Download}
-            size="md"
+            size={match ? 'md' : 'sm'}
             variant="default"
             onClick={() => downloadImageDataFast(result, main!.name)}
           />
           <Button
             content="메인으로"
-            size="md"
+            size={match ? 'md' : 'sm'}
             variant="ghost"
             status="primary"
             onClick={() => navigate(CONST_URL.HOME)}

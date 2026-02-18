@@ -50,7 +50,7 @@ const FirstStep = () => {
 
   return (
     <div
-      className="bg-300 border-strong flex h-75 w-75 items-center justify-center rounded-md border-2 border-dashed hover:cursor-pointer md:h-150 md:w-275"
+      className="bg-weak border-strong flex h-75 w-75 items-center justify-center rounded-md border-2 border-dashed hover:cursor-pointer md:h-150 md:w-275"
       onClick={handleClick}
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
@@ -63,9 +63,9 @@ const FirstStep = () => {
         onChange={handleChange}
       />
       {main && imageUrl ? (
-        <img src={imageUrl} className="h-full w-full object-fill" />
+        <img src={imageUrl} className="h-full w-full rounded-md object-cover" />
       ) : (
-        <span className="font-sans text-[18px] md:text-[56px]">
+        <span className="font-sans text-[18px] md:text-[48px]">
           여기를 눌러 이미지 파일을 올려주세요
         </span>
       )}

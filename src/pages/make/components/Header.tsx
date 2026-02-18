@@ -11,10 +11,10 @@ const Header = ({ nowStep }: HeaderProps) => {
   const steps = ['메인 이미지 선택', '타일 이미지 선택', '세부 설정'];
 
   return (
-    <div className="border-default h-44 w-screen border-b-2 md:h-55">
+    <div className="border-default z-9999 h-44 w-screen border-b-2 md:h-55">
       <div className="mx-4 mt-4 md:mx-8 md:mt-8">
         <span
-          className="font-mosaic text-[24px] hover:cursor-pointer md:text-[32px]"
+          className="font-mosaic text-primary text-[24px] tracking-wide drop-shadow-sm hover:cursor-pointer md:text-[32px]"
           onClick={() => navigate(CONST_URL.HOME)}
         >
           Mosaicer

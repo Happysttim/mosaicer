@@ -60,7 +60,7 @@ type SlideDivProps = {
 
 const SlideDiv = ({ dir, step, children }: SlideDivProps) => {
   return (
-    <div className="relative h-full min-h-0 w-full flex-1 overflow-hidden">
+    <div className="relative h-full min-h-0 w-full flex-1">
       <div
         key={`${step}-${dir}`}
         className={cn(

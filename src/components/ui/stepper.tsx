@@ -33,15 +33,19 @@ const Stepper = ({ steps, nowStep = 0 }: DefaultStepperProps) => {
             >
               <div
                 className={cn(
-                  'flex h-6 w-6 items-center justify-center rounded-4xl md:h-11 md:w-11',
+                  'flex h-4 w-4 items-center justify-center rounded-4xl md:h-11 md:w-11',
                   bgColor(),
                 )}
               >
-                <span className={cn(numberColor())}>{index + 1}</span>
+                <span
+                  className={cn(numberColor(), 'text-[10px] md:text-[18px]')}
+                >
+                  {index + 1}
+                </span>
               </div>
               <span
                 className={cn(
-                  'font-sans text-[10px] md:text-[18px]',
+                  'font-sans text-[8px] md:text-[18px]',
                   textColor(),
                 )}
               >

@@ -10,6 +10,7 @@ import Plus from '@/assets/plus.svg?react';
 import Minus from '@/assets/minus.svg?react';
 import useImageStore from '@/stores/image';
 import { cn } from '@/lib/utils';
+import useMediaWidth from '@/hooks/useWidth';
 
 const SecondStep = () => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -20,6 +21,8 @@ const SecondStep = () => {
   const appendTile = useImageStore((state) => state.appendTile);
   const setTiles = useImageStore((state) => state.setTiles);
   const tiles = useImageStore((state) => state.tiles);
+
+  const match = useMediaWidth({ minWidth: 768 });
 
   const handleClick = () => {
     if (!fileRef.current) {
@@ -74,7 +77,7 @@ const SecondStep = () => {
     <div className="flex flex-col items-center justify-center gap-10">
       <div
         className={cn(
-          'bg-300 border-strong flex h-105 w-75 rounded-md border-2 border-dashed p-2 hover:cursor-pointer md:h-125 md:w-275',
+          'bg-weak border-strong flex h-80 w-75 rounded-md border-2 border-dashed p-2 hover:cursor-pointer md:h-75 md:w-145 xl:h-125 xl:w-271',
           urls.length === 0
             ? 'items-center justify-center'
             : 'flex-wrap content-start justify-start gap-0 overflow-auto',
@@ -97,14 +100,14 @@ const SecondStep = () => {
               key={url}
               src={url}
               className={cn(
-                'h-10 w-10 object-cover',
+                'h-14 w-14 object-cover',
                 selectUrls.includes(idx) && 'border-danger border-2',
               )}
               onClick={(e: MouseEvent) => handleImgClick(e, idx)}
             />
           ))
         ) : (
-          <span className="font-sans text-[20px] md:text-[56px]">
+          <span className="font-sans text-[18px] md:text-[32px] xl:text-[56px]">
             업로드 된 타일은 여기에 보입니다
           </span>
         )}
@@ -113,7 +116,7 @@ const SecondStep = () => {
         <Button
           variant="default"
           status="primary"
-          size="md"
+          size={match ? 'md' : 'sm'}
           content="타일 업로드"
           icon={Plus}
           onClick={handleClick}
@@ -121,7 +124,7 @@ const SecondStep = () => {
         <Button
           variant="default"
           status={selectUrls.length > 0 ? 'danger' : 'disabled'}
-          size="md"
+          size={match ? 'md' : 'sm'}
           content="선택된 타일 삭제"
           icon={Minus}
           onClick={handleRemoveClick}
