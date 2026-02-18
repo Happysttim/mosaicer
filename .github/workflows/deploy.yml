@@ -44,7 +44,8 @@ jobs:
             set -e
             APP_DIR="/home/${{ secrets.SSH_USER }}/app"
             mkdir -p $APP_DIR
-            rm -rf $APP_DIR/assets/*
+            rm -rf $APP_DIR/assets
+            rm -rf $APP_DIR/usage
 
       - name: Upload dist to server
         uses: appleboy/scp-action@v0.1.7
