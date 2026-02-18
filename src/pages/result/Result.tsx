@@ -130,7 +130,7 @@ const ShowImage = ({ result, terminate }: ShowImageProps) => {
   return (
     <div className="flex items-center justify-center">
       <div className="flex h-200 w-full flex-col items-center gap-4">
-        <div className="bg-weak border-strong flex h-75 w-75 items-center justify-center md:h-130 md:w-255">
+        <div className="flex h-75 w-75 items-center justify-center bg-transparent md:h-130 md:w-255">
           {src ? (
             <img src={src} className="h-full w-full object-cover" />
           ) : (

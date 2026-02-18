@@ -50,7 +50,7 @@ const FirstStep = () => {
 
   return (
     <div
-      className="bg-weak border-strong flex h-75 w-75 items-center justify-center rounded-md border-2 border-dashed hover:cursor-pointer md:h-150 md:w-275"
+      className="border-strong flex h-75 w-75 items-center justify-center bg-transparent hover:cursor-pointer md:h-150 md:w-275"
       onClick={handleClick}
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}

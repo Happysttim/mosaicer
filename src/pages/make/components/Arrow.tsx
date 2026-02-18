@@ -17,10 +17,7 @@ const Arrow = ({ direction, className, onClick }: ArrowProps) => {
         className,
       )}
     >
-      <span
-        className="text-disabled hover:text-primary hover:cursor-pointer"
-        onClick={onClick}
-      >
+      <span className="text-primary hover:cursor-pointer" onClick={onClick}>
         {direction === 'right' ? <Next width="16" /> : <Prev width="16" />}
       </span>
     </div>

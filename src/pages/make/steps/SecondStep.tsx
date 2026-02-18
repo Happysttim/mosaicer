@@ -77,7 +77,7 @@ const SecondStep = () => {
     <div className="flex flex-col items-center justify-center gap-10">
       <div
         className={cn(
-          'bg-weak border-strong flex h-80 w-75 rounded-md border-2 border-dashed p-2 hover:cursor-pointer md:h-75 md:w-145 xl:h-125 xl:w-271',
+          'border-strong flex h-80 w-75 bg-transparent hover:cursor-pointer md:h-75 md:w-145 xl:h-125 xl:w-271',
           urls.length === 0
             ? 'items-center justify-center'
             : 'flex-wrap content-start justify-start gap-0 overflow-auto',
@@ -100,7 +100,7 @@ const SecondStep = () => {
               key={url}
               src={url}
               className={cn(
-                'h-14 w-14 object-cover',
+                'h-15 w-15 object-cover',
                 selectUrls.includes(idx) && 'border-danger border-2',
               )}
               onClick={(e: MouseEvent) => handleImgClick(e, idx)}
