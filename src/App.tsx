@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 import { CONST_URL } from './constants/url';
 import Home from './pages/home/Home';
 import Make from './pages/make/Make';
@@ -24,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: CONST_URL.RESULT,
     element: <Result />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ]);
 
