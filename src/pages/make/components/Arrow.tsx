@@ -5,7 +5,7 @@ import { type ClassValue } from 'clsx';
 
 type ArrowProps = {
   direction: 'right' | 'left';
-  className: ClassValue;
+  className?: ClassValue;
   onClick?: () => void;
 };
 
