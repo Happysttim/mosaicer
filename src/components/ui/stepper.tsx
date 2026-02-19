@@ -7,7 +7,7 @@ type DefaultStepperProps = {
 
 const Stepper = ({ steps, nowStep = 0 }: DefaultStepperProps) => {
   return (
-    <div className={cn('flex items-center justify-center gap-10')}>
+    <div className={cn('flex gap-10')}>
       {steps.length > 0 &&
         steps.map((step, index) => {
           const bgColor = () => {
