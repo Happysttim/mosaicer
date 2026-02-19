@@ -1,20 +1,18 @@
-import Button from '@/components/ui/button';
-import Progress from '@/components/ui/progress';
 import { CONST_URL } from '@/constants/url';
 import useWorker from '@/hooks/useWorker';
 import useImageStore from '@/stores/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Download from '@/assets/download.svg?react';
-
 import WorkMosaicer from '@/workers/mosaicer?worker';
-import useMediaWidth from '@/hooks/useWidth';
+import Processing from './Processing';
+import ShowImage from './ShowImage';
 
 const Result = () => {
   const worker = useMemo(() => new WorkMosaicer(), []);
-  const { message, percentage, result, terminate, postMessage } = useWorker({
-    worker,
-  });
+  const { message, percentage, result, logs, terminate, postMessage } =
+    useWorker({
+      worker,
+    });
   const navigate = useNavigate();
 
   const main = useImageStore((state) => state.main);
@@ -36,9 +34,9 @@ const Result = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <div className="h-screen w-screen overflow-x-hidden">
       <div className="border-default h-17 w-screen md:h-35">
-        <div className="mx-4 mt-4 md:mx-8 md:mt-8">
+        <div className="pt-4 pl-4 md:pt-8 md:pl-8">
           <span
             className="font-mosaic text-primary text-[24px] tracking-wide drop-shadow-sm hover:cursor-pointer md:text-[32px]"
             onClick={() => navigate(CONST_URL.HOME)}
@@ -50,113 +48,8 @@ const Result = () => {
       {result ? (
         <ShowImage result={result} terminate={terminate} />
       ) : (
-        <Processing percentage={percentage} message={message} />
+        <Processing percentage={percentage} message={message} logs={logs} />
       )}
-    </div>
-  );
-};
-
-type ProcessingProps = {
-  percentage: number;
-  message: string;
-};
-
-const Processing = ({ percentage, message }: ProcessingProps) => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="flex h-150 w-full items-center justify-center">
-      <div className="flex flex-1 flex-col items-center justify-center space-y-11">
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1.25">
-          <p className="font-mosaic text-[56px]">Processing...</p>
-          <p className="font sans text-[18px]">
-            사진이 많을 수록 작업 시간이 오래 걸립니다.
-          </p>
-          <p className="font-sans text-[32px]">{message}</p>
-          <Progress value={percentage} max={100} />
-        </div>
-        <Button
-          content="취소하기"
-          status="danger"
-          size="md"
-          variant="default"
-          onClick={() => navigate(CONST_URL.HOME)}
-        />
-      </div>
-    </div>
-  );
-};
-
-type ShowImageProps = {
-  result: ImageData;
-  terminate: () => void;
-};
-
-async function downloadImageDataFast(imageData: ImageData, fileName: string) {
-  const canvas = new OffscreenCanvas(imageData.width, imageData.height);
-  const ctx = canvas.getContext('2d')!;
-  ctx.putImageData(imageData, 0, 0);
-
-  const blob = await canvas.convertToBlob({ type: 'image/png' });
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-const ShowImage = ({ result, terminate }: ShowImageProps) => {
-  const navigate = useNavigate();
-  const main = useImageStore((state) => state.main);
-  const [src, setSrc] = useState('');
-
-  const match = useMediaWidth({ minWidth: 768 });
-
-  useEffect(() => {
-    terminate();
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = result.width;
-    canvas.height = result.height;
-
-    ctx?.putImageData(result, 0, 0);
-
-    setSrc(canvas.toDataURL());
-  }, [result]);
-
-  return (
-    <div className="flex items-center justify-center">
-      <div className="flex h-200 w-full flex-col items-center gap-4">
-        <div className="flex h-75 w-75 items-center justify-center bg-transparent md:h-130 md:w-255">
-          {src ? (
-            <img src={src} className="h-full w-full object-cover" />
-          ) : (
-            <span className="font-sans text-[18px] md:text-[56px]">
-              이미지를 불러오는 중입니다...
-            </span>
-          )}
-        </div>
-        <div className="flex w-full items-center justify-center gap-5">
-          <Button
-            content="이미지 다운로드"
-            status="success"
-            icon={Download}
-            size={match ? 'md' : 'sm'}
-            variant="default"
-            onClick={() => downloadImageDataFast(result, main!.name)}
-          />
-          <Button
-            content="메인으로"
-            size={match ? 'md' : 'sm'}
-            variant="ghost"
-            status="primary"
-            onClick={() => navigate(CONST_URL.HOME)}
-          />
-        </div>
-      </div>
     </div>
   );
 };
