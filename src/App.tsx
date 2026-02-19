@@ -14,6 +14,13 @@ const reset = () => {
   reset();
 };
 
+const redirect = () => {
+  const { main, tiles } = useImageStore.getState();
+  if (!main || tiles.length === 0) {
+    window.location.href = '/';
+  }
+};
+
 const router = createBrowserRouter([
   {
     path: CONST_URL.HOME,
@@ -28,6 +35,7 @@ const router = createBrowserRouter([
   {
     path: CONST_URL.RESULT,
     element: <Result />,
+    loader: redirect,
   },
   {
     path: '*',
