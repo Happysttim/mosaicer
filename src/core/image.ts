@@ -65,7 +65,9 @@ class Image {
     );
 
     if (!decoded) {
-      throw new Error('Failed Make Tile');
+      throw new Error(
+        `지원하지 않는 MIME-Type(${this._mimeType}) 입니다. 메인 사진을 PNG, WEBP, JPEG 로 변환 후 다시 시도해주세요.`,
+      );
     }
 
     try {
