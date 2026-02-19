@@ -1,4 +1,5 @@
 import useImageStore from '@/stores/image';
+import type { Logs } from '@/types/logger';
 import type { ImageStore, PostMessage } from '@/types/worker';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -6,6 +7,7 @@ type ResultType = {
   result: ImageData | undefined;
   percentage: number;
   message: string;
+  logs: Logs;
   terminate: () => void;
   postMessage: (message: ImageStore) => void;
 };
@@ -18,24 +20,44 @@ const useWorker = ({ worker }: WorkerProps): ResultType => {
   const [result, setResult] = useState<ImageData>();
   const [percentage, setPercentage] = useState(0);
   const [message, setMessage] = useState('');
+  const [logs, setLogs] = useState<Logs>([]);
   const workerRef = useRef<Worker>(null);
 
-  const { main, tiles, batchType, opacity, scale, maxCount } =
-    useImageStore.getState();
+  const {
+    main,
+    tiles,
+    batchType,
+    opacity,
+    scale,
+    maxCount,
+    urls,
+    setTileCount,
+    incrementCount,
+  } = useImageStore.getState();
 
   useEffect(() => {
     workerRef.current = worker;
     workerRef.current.onmessage = (e: MessageEvent<PostMessage>) => {
-      const { percentage, result, message } = e.data;
-      if (percentage != null) {
-        setPercentage(percentage);
+      const data = e.data;
+      if (data.type === 'process') {
+        setPercentage(data.percentage);
+        setMessage(data.message);
+        if (data.result) {
+          setResult(data.result);
+        }
+      } else if (data.type === 'log') {
+        setLogs((prev) => [...prev, data.logMessage]);
+      } else {
+        if (data.state === 'set') {
+          const url = urls.get(data.fileName);
+          if (url) {
+            setTileCount(data.fileName, { url, count: 0 });
+          }
+        } else {
+          incrementCount(data.fileName);
+        }
       }
 
-      if (result) {
-        setResult(result);
-      }
-
-      setMessage(message);
       return () => {
         if (workerRef.current) workerRef.current.terminate();
       };
@@ -64,6 +86,7 @@ const useWorker = ({ worker }: WorkerProps): ResultType => {
     result,
     percentage,
     message,
+    logs,
     terminate,
     postMessage,
   };
