@@ -27,9 +27,9 @@ const Make = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-screen flex-col">
+    <div className="min-h-screen w-screen">
       <Header nowStep={nowStep} />
-      <div className="relative flex h-full min-h-0 w-full flex-1 flex-col">
+      <div className="flex h-full min-h-0 w-full flex-1 items-center justify-center">
         {nowStep > 0 && (
           <Arrow
             direction="left"
@@ -60,11 +60,11 @@ type SlideDivProps = {
 
 const SlideDiv = ({ dir, step, children }: SlideDivProps) => {
   return (
-    <div className="relative h-full min-h-0 w-full flex-1">
+    <div className="my-10 flex h-full min-h-0 w-full flex-1 items-center justify-center">
       <div
         key={`${step}-${dir}`}
         className={cn(
-          'absolute inset-0 flex items-center justify-center',
+          'inset-0 flex min-h-0 flex-1 items-center justify-center',
           'animate-in duration-200',
           dir === 'right' ? 'slide-in-from-right-40' : 'slide-in-from-left-40',
         )}

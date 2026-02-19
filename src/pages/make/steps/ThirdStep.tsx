@@ -1,14 +1,17 @@
 import Button from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
 import TextField from '@/components/ui/textfield';
 import { CONST_URL } from '@/constants/url';
+import useMediaWidth from '@/hooks/useWidth';
 import useImageStore from '@/stores/image';
 import { useNavigate } from 'react-router-dom';
 
 const ThirdStep = () => {
   const navigate = useNavigate();
+  const match = useMediaWidth({ minWidth: 768 });
 
   const batchType = useImageStore((state) => state.batchType);
   const setBatchType = useImageStore((state) => state.setBatchType);
@@ -23,11 +26,11 @@ const ThirdStep = () => {
   const setMaxCount = useImageStore((state) => state.setMaxCount);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center overflow-y-scroll font-sans">
-      <div className="flex flex-col">
-        <div className="flex flex-1 flex-col gap-10">
+    <div className="flex items-center justify-center">
+      <Card>
+        <CardContent className="flex flex-col gap-2">
           <div className="relative">
-            <p className="text-[24px]">투명도</p>
+            <p className="text-[18px] md:text-[24px]">투명도</p>
             <TextField
               type="number"
               value={opacity}
@@ -41,7 +44,7 @@ const ThirdStep = () => {
             />
           </div>
           <div className="relative">
-            <p className="text-[24px]">배치 타입</p>
+            <p className="text-[18px] md:text-[24px]">배치 타입</p>
             <RadioGroup
               value={batchType}
               className="w-fit"
@@ -49,23 +52,30 @@ const ThirdStep = () => {
             >
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="histogram" id="histogram" />
-                <Label htmlFor="histogram">히스토그램</Label>
+                <Label
+                  htmlFor="histogram"
+                  className="text-[12px] md:text-[18px]"
+                >
+                  히스토그램
+                </Label>
               </div>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="random" id="random" />
-                <Label htmlFor="random">랜덤</Label>
+                <Label htmlFor="random" className="text-[12px] md:text-[18px]">
+                  랜덤
+                </Label>
               </div>
             </RadioGroup>
           </div>
           <div className="relative">
-            <p className="text-[24px]">스케일</p>
+            <p className="text-[18px] md:text-[24px]">스케일</p>
             <Slider
               onValueChange={(e) => setScale(e[0])}
               value={[scale]}
               max={5}
               min={1}
               step={0.1}
-              className="my-4"
+              className="my-4 w-40 md:w-full"
             />
             <TextField
               type="number"
@@ -80,14 +90,14 @@ const ThirdStep = () => {
             />
           </div>
           <div className="relative">
-            <p className="text-[24px]">최대 타일 개수</p>
+            <p className="text-[18px] md:text-[24px]">최대 타일 개수</p>
             <Slider
               onValueChange={(e) => setMaxCount(e[0])}
               value={[maxCount]}
               max={10000}
               min={100}
               step={1}
-              className="my-4"
+              className="my-4 w-40 md:w-full"
             />
             <TextField
               type="number"
@@ -101,24 +111,24 @@ const ThirdStep = () => {
               onChange={(e) => setMaxCount(parseInt(e.target.value))}
             />
           </div>
-        </div>
-      </div>
-      <div className="my-10 flex min-h-0 items-center justify-center gap-5">
-        <Button
-          variant="default"
-          status={checkAllState() ? 'success' : 'disabled'}
-          size="md"
-          content="작업 시작하기"
-          onClick={() => navigate(CONST_URL.RESULT)}
-        />
-        <Button
-          variant="default"
-          status="danger"
-          size="md"
-          content="작업 취소하기"
-          onClick={() => navigate(CONST_URL.HOME)}
-        />
-      </div>
+          <div className="flex min-h-0 items-center justify-center gap-5">
+            <Button
+              variant="default"
+              status={checkAllState() ? 'success' : 'disabled'}
+              size={match ? 'md' : 'sm'}
+              content="작업 시작하기"
+              onClick={() => navigate(CONST_URL.RESULT)}
+            />
+            <Button
+              variant="default"
+              status="danger"
+              size={match ? 'md' : 'sm'}
+              content="작업 취소하기"
+              onClick={() => navigate(CONST_URL.HOME)}
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

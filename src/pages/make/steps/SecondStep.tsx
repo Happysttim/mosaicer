@@ -14,10 +14,11 @@ import useMediaWidth from '@/hooks/useWidth';
 
 const SecondStep = () => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [selectUrls, setSelectUrls] = useState<number[]>([]);
+  const [selectFiles, setSelectFiles] = useState<Set<string>>(() => new Set());
 
   const urls = useImageStore((state) => state.urls);
-  const setUrls = useImageStore((state) => state.setUrls);
+  const setUrl = useImageStore((state) => state.setUrl);
+  const deleteUrl = useImageStore((state) => state.deleteUrl);
   const appendTile = useImageStore((state) => state.appendTile);
   const setTiles = useImageStore((state) => state.setTiles);
   const tiles = useImageStore((state) => state.tiles);
@@ -52,25 +53,38 @@ const SecondStep = () => {
     appendTile(...fileArr);
   };
 
-  const handleImgClick = (e: MouseEvent, idx: number) => {
+  const handleImgClick = (e: MouseEvent, fileName: string) => {
     e.stopPropagation();
-    setSelectUrls((prev) =>
-      prev.includes(idx) ? prev.filter((v) => v != idx) : [...prev, idx],
-    );
+    setSelectFiles((prev) => {
+      const files = new Set(prev);
+      if (!files.has(fileName)) {
+        return files.add(fileName);
+      }
+
+      files.delete(fileName);
+      return files;
+    });
   };
 
   const handleRemoveClick = () => {
-    const newUrls = urls.filter((_, i) => !selectUrls.includes(i));
-    const newTiles = tiles.filter((_, i) => !selectUrls.includes(i));
+    const newTiles = tiles.filter((file) => !selectFiles.has(file.name));
 
-    setUrls(newUrls);
+    for (const fileName of selectFiles) {
+      deleteUrl(fileName);
+    }
+
     setTiles(newTiles);
-    setSelectUrls([]);
+    setSelectFiles(new Set());
   };
 
   const files2Urls = (files: File[]) => {
-    const appendUrls = files.map((file) => URL.createObjectURL(file));
-    setUrls([...urls, ...appendUrls]);
+    const appendUrls = files.map<[string, string]>((file) => [
+      file.name,
+      URL.createObjectURL(file),
+    ]);
+    for (const [fileName, url] of appendUrls) {
+      setUrl(fileName, url);
+    }
   };
 
   return (
@@ -78,7 +92,7 @@ const SecondStep = () => {
       <div
         className={cn(
           'border-strong flex h-80 w-75 bg-transparent hover:cursor-pointer md:h-75 md:w-145 xl:h-125 xl:w-271',
-          urls.length === 0
+          urls.size === 0
             ? 'items-center justify-center'
             : 'flex-wrap content-start justify-start gap-0 overflow-auto',
         )}
@@ -94,16 +108,16 @@ const SecondStep = () => {
           multiple
           onChange={handleChange}
         />
-        {urls.length > 0 ? (
-          urls.map((url, idx) => (
+        {urls.size > 0 ? (
+          Array.from(urls.entries()).map(([fileName, url]) => (
             <img
               key={url}
               src={url}
               className={cn(
                 'h-15 w-15 object-cover',
-                selectUrls.includes(idx) && 'border-danger border-2',
+                selectFiles.has(fileName) && 'border-danger border-2',
               )}
-              onClick={(e: MouseEvent) => handleImgClick(e, idx)}
+              onClick={(e: MouseEvent) => handleImgClick(e, fileName)}
             />
           ))
         ) : (
@@ -123,7 +137,7 @@ const SecondStep = () => {
         />
         <Button
           variant="default"
-          status={selectUrls.length > 0 ? 'danger' : 'disabled'}
+          status={selectFiles.size > 0 ? 'danger' : 'disabled'}
           size={match ? 'md' : 'sm'}
           content="선택된 타일 삭제"
           icon={Minus}
