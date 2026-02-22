@@ -43,6 +43,9 @@ export default defineConfig([globalIgnores(['dist', 'vite.config.ts']), {
   ],
   'react-hooks/immutability': [
     'off'
-  ]
+  ],
+  'react-refresh/only-export-components': [
+    'off'
+  ],
 },
 }, ...storybook.configs["flat/recommended"]]);
