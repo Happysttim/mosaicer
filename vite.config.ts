@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
+import { vitePrerenderPlugin } from 'vite-prerender-plugin';
 import svgr from 'vite-plugin-svgr';
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,7 +18,12 @@ export default defineConfig({
   worker: {
     format: 'es',
   },
-  plugins: [react(), tailwindcss(), svgr()],
+  plugins: [react(), tailwindcss(), svgr(), vitePrerenderPlugin({
+    prerenderScript: './src/pages/home/Home.tsx',
+  }), {
+    name: 'closeBundle',
+    closeBundle: () => process.exit(0),
+  }],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
