@@ -19,8 +19,11 @@ export default defineConfig({
     format: 'es',
   },
   plugins: [react(), tailwindcss(), svgr(), vitePrerenderPlugin({
-    prerenderScript: './src/pages/home/Home.tsx',
-  }), {
+    prerenderScript: './src/prerender.tsx',
+    renderTarget: '#root',
+    additionalPrerenderRoutes: ['/', '/make']
+  }), 
+  {
     name: 'closeBundle',
     closeBundle: () => process.exit(0),
   }],

@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  createMemoryRouter,
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
@@ -21,7 +22,7 @@ const redirect = () => {
   }
 };
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: CONST_URL.HOME,
     element: <Home />,
@@ -41,9 +42,16 @@ const router = createBrowserRouter([
     path: '*',
     element: <Navigate to="/" replace />,
   },
-]);
+];
+
+export const createRouter = (type: 'browser' | 'memory', url: string = '/') => {
+  return type === 'browser'
+    ? createBrowserRouter(routes)
+    : createMemoryRouter(routes, { initialEntries: [url] });
+};
 
 const App = () => {
+  const router = createRouter('browser');
   return <RouterProvider router={router} />;
 };
 

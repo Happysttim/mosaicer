@@ -1,8 +1,10 @@
 import Button from '@/components/ui/button';
 import { CONST_URL } from '@/constants/url';
-import { renderToString } from 'react-dom/server';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex min-h-screen w-full flex-col items-center from-white via-neutral-50 to-neutral-100">
       <section className="flex w-full flex-1 flex-col items-center justify-center px-6 py-20">
@@ -15,14 +17,13 @@ const Home = () => {
               Mosaicer
             </p>
           </div>
-          <a href={CONST_URL.MAKE}>
-            <Button
-              variant="default"
-              status="primary"
-              content="지금 시작해보기"
-              size="lg"
-            />
-          </a>
+          <Button
+            variant="default"
+            status="primary"
+            content="지금 시작해보기"
+            size="lg"
+            onClick={() => navigate(CONST_URL.MAKE)}
+          />
         </div>
       </section>
       <div className="w-full max-w-5xl px-6">
@@ -98,11 +99,6 @@ const Home = () => {
       </section>
     </div>
   );
-};
-
-export const prerender = () => {
-  const html = renderToString(<Home />);
-  return { html };
 };
 
 export default Home;
